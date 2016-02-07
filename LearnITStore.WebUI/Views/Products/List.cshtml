@@ -1,0 +1,13 @@
+﻿@model LearnITStore.WebUI.Models.ProductsViewModel
+@{
+    ViewBag.Title = "Catalogo";
+}
+
+@foreach (var p in Model.Products)
+{
+    @Html.Partial("ProductSummary",p)
+}
+<div>
+    @Html.Paginador(Model.PageInfo,
+    i => Url.Action("List",new {categoria=Model.CurrentCategory, page = i}))
+</div>

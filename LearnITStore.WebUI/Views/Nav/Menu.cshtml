@@ -1,0 +1,22 @@
+﻿@model IEnumerable<string>
+@{
+    var categoria = ViewBag.categoria as string;
+}
+
+@Html.ActionLink("Todas","List","Products",
+    null,
+    new
+    {
+        @class = "btn btn-block btn-default btn-lg"
+    })
+
+@foreach (var cat in Model)
+{
+    @Html.ActionLink(cat,"List","Products",
+    new { page = 1, categoria = cat },
+    new
+    {
+        @class = "btn btn-block btn-default btn-lg" +
+        (cat == categoria ? " btn-primary":"")         
+    })
+}
