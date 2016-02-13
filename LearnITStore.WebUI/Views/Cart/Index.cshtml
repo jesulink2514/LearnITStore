@@ -1,0 +1,61 @@
+﻿@model CartViewModel
+@{
+   ViewBag.Title = "Tu carrito de compras";
+    Model.ReturnUrl = String.IsNullOrEmpty(Model.ReturnUrl) ?
+        "/" : Model.ReturnUrl;
+}
+<style>
+    #cart {
+        vertical-align: middle;   
+    }
+</style> 
+<h2>Tu carrito de compras</h2>
+<table class="table" id="cart">
+    <thead>
+    <th class="text-center">Cantidad</th>
+    <th class="text-left">Producto</th>
+    <th class="text-right">Precio</th>
+    <th class="text-right">Subtotal</th>
+    </thead>
+    <tbody>
+    @foreach (var line in Model.Cart.Lines)
+    {
+        <tr>
+            <td class="text-center">@line.Quantity</td>
+            <td class="text-left">@line.Product.Name</td>
+            <td class="text-right">@line.Product.Price.ToString("C")</td>
+            <td class="text-right">@line.SubTotal.ToString("C")</td>
+            <td>
+                @using (Html.BeginForm("RemoveFromCart","Cart"))
+                {
+                    @Html.Hidden("productID",line.Product.ProductID)
+                    @Html.HiddenFor(x=>x.ReturnUrl)
+                    <input type="submit"
+                           class="btn btn-warning"
+                           value="Quitar"/>
+                }
+            </td>          
+        </tr>
+    }
+    </tbody>
+    <tfoot>
+    <tr>
+        <td colspan="3" class="text-center">Total:</td>
+        <td class="text-right">
+         <span>
+            @Model.Cart.TotalPrice.ToString("C")
+         </span>
+        </td>
+    </tr>
+    </tfoot>
+</table>
+
+<div class="text-center">
+    <a class="btn btn-primary" href="@Model.ReturnUrl">
+        Seguir comprando
+    </a>
+    <a class="btn btn-success" 
+        href="@Url.Action("Index","Checkout")">
+        Hacer checkout ahora!
+    </a>
+</div>

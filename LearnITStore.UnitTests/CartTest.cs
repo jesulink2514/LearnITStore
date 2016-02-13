@@ -77,5 +77,21 @@ namespace LearnITStore.UnitTests
             //Assert
             Assert.AreEqual(cart.TotalPrice,199);
         }
+
+        [TestMethod]
+        public void Carrito_se_limpia_al_llamar_clear()
+        {
+            //Arrange
+            var carrito = new Cart();
+            var p = new Product() {ProductID = 1};
+            carrito.Add(p,3);
+            const int items = 0;
+            
+            //Act
+            carrito.Clear();
+
+            //Assert
+            Assert.AreEqual(carrito.Lines.Count(),items);
+        }
     }
 }
