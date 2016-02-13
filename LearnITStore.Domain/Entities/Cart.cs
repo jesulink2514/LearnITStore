@@ -47,11 +47,21 @@ namespace LearnITStore.Domain.Entities
                 .RemoveAll(x =>
                     x.Product.ProductID == product.ProductID);
         }
+
+        public void Clear()
+        {
+            _lines.Clear();
+        }
     }
 
     public class CartLine
     {
         public Product Product { get; set; }
         public int Quantity{ get; set; }
+
+        public decimal SubTotal 
+        {
+            get { return Quantity * Product.Price; }
+        }
     }
 }

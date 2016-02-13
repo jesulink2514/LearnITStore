@@ -1,4 +1,6 @@
-﻿@model Product
+﻿@*vista que renderiza todos los productos (muestra)*@
+
+@model Product
 <div class="well">
     <h3>
         <strong>@Model.Name</strong>
@@ -6,6 +8,19 @@
             @Model.Price.ToString("C")
         </span>
     </h3>
+
+    @using (Html.BeginForm("AddToCart", "Cart"))
+    {
+        <div class="pull-right">
+            @*Extraemos del modelo, oculto en la url de la web donde esta el usuario*@
+            @*Que propiedad voy a guardar de mi modelo*@
+            @*Ambos producen lo mismo*@
+            @Html.HiddenFor(x=> x.ProductID)
+            @Html.Hidden("returnUrl",Request.Url.PathAndQuery)
+            <input type="submit" class="btn btn-success" value="Agregar al carrito" />
+        </div>
+    }
+
     <span class="lead">
         @Model.Description
     </span>
