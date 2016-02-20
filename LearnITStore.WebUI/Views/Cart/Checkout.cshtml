@@ -10,9 +10,9 @@
 @using(Html.BeginForm())
 {
     <h3>Enviar a</h3>
+    @Html.ValidationSummary()
     <div class="form-group">
-        @Html.LabelFor(x=>x.Name)
-        <label>Nombre:</label>
+        @Html.LabelFor(x=>x.Name)        
         @Html.TextBoxFor(x=>x.Name,new {@class="form-control"})
     </div>
 

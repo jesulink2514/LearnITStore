@@ -15,7 +15,7 @@ namespace LearnITStore.WebUI.App_Start
 
     using Ninject;
     using Ninject.Web.Common;
-
+    using System.Configuration;
     public static class NinjectWebCommon 
     {
         private static readonly Bootstrapper bootstrapper = new Bootstrapper();
@@ -68,6 +68,16 @@ namespace LearnITStore.WebUI.App_Start
         {                       
             kernel.Bind<IProductRepository>()
                 .To<EFProductRepository>();
+
+            var settings = new EmailSettings()
+            {
+                WriteAsFile = 
+                bool.Parse(ConfigurationManager.AppSettings["email.writeAsFile"])
+            };
+
+            kernel.Bind<IOrderProcessor>()
+                .To<EmailOrderProcessor>()
+                .WithConstructorArgument("settings",settings);            
         }        
     }
 }

@@ -14,10 +14,14 @@ namespace LearnITStore.WebUI.Controllers
         //este tipo de dato no puede ser cambiado, no puede ser reemplazado
         //por otro objeto
         private readonly IProductRepository _productRepository;
+        private readonly IOrderProcessor _orderProcessor;
         //El constructor va a pedir que le pasen el producto
-        public CartController(IProductRepository productRepository)
+        public CartController(
+            IProductRepository productRepository,
+            IOrderProcessor orderProcessor)
         {
-            _productRepository = productRepository;   
+            _productRepository = productRepository;
+            _orderProcessor = orderProcessor;
         }
 
         //Metodo que devuelve una acción
@@ -68,6 +72,27 @@ namespace LearnITStore.WebUI.Controllers
         {
             return PartialView(cart);
         } 
+
+        public ActionResult Checkout()
+        {
+            return View(new ShippingDetails());
+        }
+
+        [HttpPost]
+        public ActionResult Checkout(Cart cart,ShippingDetails detalles)
+        {
+            if (!cart.Lines.Any())
+                ModelState.AddModelError("", "Tu carrito esta vacío.");
+
+            if (ModelState.IsValid)
+            {
+                //Process
+                _orderProcessor.Process(cart, detalles);
+                cart.Clear();
+                return View("Completed");
+            }
+            return View(detalles);
+        }
 
         //Llamamos el Binder borramos el metodo GetCart() y lo colocamos
         //en los métodos anteriores
