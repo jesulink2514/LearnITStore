@@ -54,6 +54,7 @@ namespace LearnITStore.Domain.Concrete
                     line.Product.Name,
                     line.Quantity,
                     line.SubTotal);
+                sb.AppendLine("");
             }
             sb.AppendLine("");
             sb.AppendFormat("Total de la Orden: {0:c}", cart.TotalPrice);
