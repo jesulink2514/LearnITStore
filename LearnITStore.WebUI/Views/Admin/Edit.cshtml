@@ -1,0 +1,50 @@
+﻿@model LearnITStore.Domain.Entities.Product
+
+@{
+    ViewBag.Title = "Administración:Editar";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3>Editar @Model.Name</h3>
+    </div>
+    @using (Html.BeginForm())
+    {
+        <div class="panel-body">
+            @Html.HiddenFor(x => x.ProductID)
+            @foreach (var p in ViewData.ModelMetadata.Properties)
+            {
+                if (p.PropertyName != "ProductID")
+                {
+                    <div class="form-group">
+                        <label>
+                            @(p.DisplayName ?? p.PropertyName)
+                        </label>
+                        @if (p.PropertyName == "Description")
+                        {
+                            @Html.TextArea(p.PropertyName, null,
+                                new { @class = "form-control", rows = 5 })
+                        }
+                        else
+                        {
+                            @Html.TextBox(p.PropertyName, null,
+                                new { @class = "form-control" })
+                        }
+                        @Html.ValidationMessage(p.PropertyName)
+                    </div>
+                }
+            }
+        </div>
+        <div class="panel-footer">
+            <input type="submit" value="Guardar" class="btn btn-primary" />
+            @Html.ActionLink("Cancelar", "Index", null,
+            new { @class = "btn btn-default" })
+        </div>
+    }
+</div>
+
+@section scripts
+{
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+}
